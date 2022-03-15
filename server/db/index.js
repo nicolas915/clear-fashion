@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const MONGODB_DB_NAME = 'clearfashion';
 const MONGODB_COLLECTION = 'products';
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = 'mongodb+srv://WebArchitecture:WebArchitecture@cluster0.cduqe.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';;
 
 let client = null;
 let database = null;
@@ -16,7 +16,7 @@ let database = null;
 const getDB = module.exports.getDB = async () => {
   try {
     if (database) {
-      console.log('💽  Already Connected');
+      console.log('💽  Already  Connected');
       return database;
     }
 

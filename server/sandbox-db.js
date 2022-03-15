@@ -3,6 +3,8 @@ const dedicatedbrand = require('./sites/dedicatedbrand');
 const loom = require('./sites/loom');
 const db = require('./db');
 
+
+
 async function sandbox () {
   try {
     let products = [];
@@ -25,8 +27,8 @@ async function sandbox () {
     }
 
     pages = [
-      'https://www.loom.fr/collections/hauts-homme',
-      'https://www.loom.fr/collections/bas-homme'
+      'https://www.loom.fr/collections/hauts',
+      'https://www.loom.fr/collections/bas'
     ];
 
     console.log('\n');
@@ -64,6 +66,13 @@ async function sandbox () {
     console.log(`👕 ${loomOnly.length} total of products found for Loom`);
     console.log(loomOnly);
 
+    const lessThan = await db.find({ "price" : { $lt : 40 } });
+    console.log(`${lessThan.length} total of products lower than 40€`);
+    console.log(lessThan);
+
+    
+
+    
     db.close();
   } catch (e) {
     console.error(e);

@@ -1,14 +1,17 @@
 [
   {
     "brand": "DEDICATED",
-    "rating": 78
+    "rating": 78,
+    "link": "https://www.dedicatedbrand.com/en/men/news"
   },
   {
     "brand": "Montlimart",
-    "rating": 76
+    "rating": 76,
+    "link": "https://www.montlimart.com/polos-t-shirts.html"
   },
   {
     "brand": "ADRESSE Paris",
-    "rating": 65
-  },
+    "rating": 65,
+    "link": "https://adresse.paris/602-nouveautes"
+  }
 ]
