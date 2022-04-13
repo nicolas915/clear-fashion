@@ -1,8 +1,7 @@
-const { next } = require('cheerio/lib/api/traversing');
 const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
-const db = require('./db');
+const db =  require('./db');
 
 const PORT = 8092;
 
@@ -17,38 +16,37 @@ app.use(helmet());
 app.options('*', cors());
 
 app.get('/', (request, response) => {
-  response.send({'ack': true, 'reponse': 'ok'});
+  response.send({'ack': true});
 });
 
 app.get('/products/:id', async (request, response, next) => {
-  if(request.params.id != "search"){
-    const fetch = await db.find({'_id': request.params.id});
-    response.send(fetch[0]);
-    console.log(request.params)
-    console.log(request.query)
+  if(request.params.id!="search") {
+    console.log(`🕵️‍♀️ Fetch a specific product identify by ${request.params.id}`);
+    result= await db.find({'_id':request.params.id})
+    response.send(result);
   }
-  else{
-    next()
-  }
+  else next()
+  
 });
 
 app.get('/products/search', async (request, response) => {
-  let dic = {}
-  let limit = 12
-  if(request.query.brand){
-    dic["brand"] = request.query.brand
+  console.log(`🕵️‍♀️ search a specific product identify by a specific query : ${request.query}`);
+  let query = {}
+  let limit = 12;
+  if (request.query.limit!=null){
+    limit = parseInt(request.query.limit);
   }
-  if(request.query.price){
-    dic["price"] = {"$lt":parseFloat(request.query.price)}
+  if(request.query.brand!=null){
+    query["brand"]=request.query.brand;
   }
-  if(request.query.limit){
-    limit = request.query.limit
+  if(request.query.price!=null){
+    query["price"]={$lt :parseFloat(request.query.price)};
   }
-  const search = await db.find(dic);
-  response.send(search.sort((a,b) => (a.price>b.price)?1:-1).slice(0, limit));
-  console.log(request.params)
-  console.log(request.query)
   
+  result= await db.find(query)
+  console.log(result)
+  response.send(result.sort((a,b) => (a.price>b.price)?1:-1).slice(0,limit))  //or slice
+
 });
 
 app.listen(PORT);
