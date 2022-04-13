@@ -199,7 +199,7 @@ function onlyUnique(value, index, self) {
 const fetchProducts = async (page = 1, size = 12,brandname="") => {
   try {
       const response = await fetch(
-        `https://server-ozxng1h3q-nicolas915.vercel.app/products/search?page=${page}&size=${size}&brand=${brandname}`
+        `https://clear-fashion-mu.vercel.app?page=${page}&size=${size}&brand=${brandname}`
       );
       const body = await response.json();
     
