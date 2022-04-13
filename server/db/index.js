@@ -74,6 +74,24 @@ module.exports.find = async query => {
 };
 
 /**
+ * Aggregate products based on query
+ * @param  {Array}  query
+ * @return {Array}
+ */
+ module.exports.aggregate = async query => {
+  try {
+    const db = await getDB();
+    const collection = db.collection(MONGODB_COLLECTION);
+    const result = await collection.aggregate(query).toArray();
+
+    return result;
+  } catch (error) {
+    console.error('🚨 collection.find...', error);
+    return null;
+  }
+};
+
+/**
  * Close the connection
  */
 module.exports.close = async () => {

@@ -1,50 +1,49 @@
 /* eslint-disable no-console, no-process-exit */
 const dedicatedbrand = require('./sources/dedicatedbrand');
-const brand = require("./brands.json");
-const { testElement } = require('domutils');
+const montlimart = require('./sites/montlimart');
+const adresseParis =require("./sites/adresseParis");
 const fs = require("fs");
 
-async function sandbox (eshop) {
-  try {
-    console.log(`🕵️‍♀️  browsing ${eshop} source`);
 
-    const products = await dedicatedbrand.scrape(eshop);
-    return products
-    console.log(products);
-    console.log('done');
-    process.exit(0);
-  } catch (e) {
-    console.error(e);
-    process.exit(1);
-  }
-}
+const Eshop = [
+    'https://www.dedicatedbrand.com/en/men/news',
+    'https://www.montlimart.com/toute-la-collection.html',
+    'https://adresse.paris/630-toute-la-collection'
+]
+let moduleRequired =[
+  dedicatedbrand,
+  montlimart, 
+  adresseParis
+]
+let all_produts=[]
 
-let [,, eshop] = process.argv;
-console.log(brand);
-if (eshop){
-  sandbox(eshop);
-}
-else{
-  for(let i = 0; i<brand.length; i++){
-    test(brand, i)    
-  }
-}
+async function sandbox () {
+  
+  for(let i=0; i<Eshop.length;i++){
+    try {
+      console.log(`🕵️‍♀️  browsing ${Eshop[i]} source`);
+      products= await moduleRequired[i].scrape(Eshop[i]);
+      console.log(products);
+      console.log("done1");
 
-async function test(brand, i){
-  try{
-    if (brand[i].link){
-      eshop = brand[i].link;
-      let product = await sandbox(eshop)
-      fs.writeFile(`${brand[i].brand}.json`, JSON.stringify(product), function(err){
-        if(err) throw err;
-        console.log('Fichier fait');
+      all_produts.push(products);
+      fs.writeFile('scrapted_products.json',all_produts,function(err){
+      if(err) {
+          throw err;
+        }
+        console.log('json script created')
       })
-      console.log(product)
-      //await sandbox(eshop);
+
+    } 
+    catch (e) {
+      console.error(e);
     }
-  }
-  catch(e)
-  {
-    console.log(e);
-  }
+
+  };
+  
 }
+
+const [,, eshop] = process.argv;
+
+sandbox(eshop);
+  
