@@ -196,7 +196,7 @@ function onlyUnique(value, index, self) {
  * @param  {Number}  [size=12] - size of the page (per default at 12)
  * @return {Object}
  */
-const fetchProducts = async (page = 1, size = 12,brandname="") => {
+const fetchProducts = async (page = 1, limit = 12,brandname="") => {
   try {
       const response = await fetch(
         `https://clear-fashion-mu.vercel.app/products/search?limit=${limit}&brand=${brandname}`
